@@ -11,13 +11,13 @@ const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNzI0Mjk2MjYwLCJz
 
 
 const httpLink = createHttpLink({
-    uri: 'backend/ticketing/service',
+    uri: 'backend/service',
 });
 
 // WebSocket link for subscriptions
 const wsLink = new GraphQLWsLink(
     createClient({
-        url: 'backend/ticketing/ws', //
+        url: 'backend/ws', //
         connectionParams: {
             headers: {
                 Authorization: `Bearer ${token}`,
