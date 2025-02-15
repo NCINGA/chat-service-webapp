@@ -1,16 +1,11 @@
-.floating-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-}
-
 .chat-window {
   position: fixed;
   bottom: 80px;
   right: 20px;
   width: 320px;
   max-height: 500px;
+  display: flex;
+  flex-direction: column;
   z-index: 1000;
   background: #ffffff;
   border-radius: 8px;
@@ -19,45 +14,55 @@
 }
 
 .chat-card {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-  gap: 16px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 20px;
 }
 
-/* Chat Body */
 .chat-body {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  height: 350px;
+  overflow-y: auto;
 }
 
-/* Message List */
 .messages {
-  max-height: 300px;
+  flex-grow: 1;
   overflow-y: auto;
-  background-color: #f1f1f1;
   padding: 10px;
   border-radius: 8px;
+  height: 300px;
 }
 
-/* Individual Message */
-.chat-message {
-  background-color: #e0f7fa;
-  border-radius: 8px;
-  padding: 8px;
-  margin-bottom: 8px;
-  font-size: 14px;
-}
-
-/* Chat Input Area */
 .chat-input {
   display: flex;
-  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  flex-direction: row;
   gap: 8px;
+  padding-top: 8px;
+  background: #fff;
 }
 
-/* Send Button */
-.send-btn {
-  align-self: flex-end;
+.chat-box-header {
+}
+
+
+.floating-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+
+.floating-btn:hover {
+  transform: scale(1.1);
 }

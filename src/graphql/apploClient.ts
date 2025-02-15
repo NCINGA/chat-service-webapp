@@ -11,20 +11,27 @@ const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNzI0Mjk2MjYwLCJz
 
 
 const httpLink = createHttpLink({
-    uri: 'backend/qraphql',
+    uri: 'backend/graphql',
 });
 
 // WebSocket link for subscriptions
 const wsLink = new GraphQLWsLink(
     createClient({
         url: 'backend/ws',
-        connectionParams: {
-            headers: {
-                Authorization: `Bearer ${token}`,
+        connectionParams: () => ({
+            Authorization: `Bearer ${token}`,
+        }),
+        lazy: true,
+        retryAttempts: 10,
+        shouldRetry: () => true,
+        on: {
+            closed: () => {
+                console.warn("WebSocket closed. Attempting to reconnect...");
             },
         },
     })
 );
+wsLink.client.on('error', (err) => console.error("WebSocket error:", err));
 
 // Split link to route between WebSocket and HTTP based on operation type
 const splitLink = split(
