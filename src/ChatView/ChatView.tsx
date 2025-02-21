@@ -19,10 +19,13 @@ const ChatView: FC = () => {
     const [messages, setMessages] = useState<IMessage[]>([]);
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
     const [typing, setTyping] = useState<boolean>(false);
+    const [sendGreet, setSendGreet] = useState<boolean>(false);
     const {data: chat} = useSubscription(CHAT_SUBSCRIPTION, {
         variables: {message: {session: sessionId, user: "Me", message: "", inputType: TEXT, timestamp: 0}},
         shouldResubscribe: false
     });
+    const [incomingMessage, setIncomingMessage] = useState<IMessage[]>([]);
+    ;
 
     const [sendMessageToServer] = useMutation(CHAT_SEND_MESSAGE);
 
@@ -43,6 +46,17 @@ const ChatView: FC = () => {
                 ]);
                 setTyping(false);
             }
+            setIncomingMessage((prevMessages) => [
+                ...prevMessages,
+                {
+                    session: sessionId,
+                    user: incomingMessage.user,
+                    message: incomingMessage.message,
+                    inputType: incomingMessage.inputType,
+                    timestamp: incomingMessage.timestamp,
+                    args: incomingMessage.args
+                }
+            ]);
         }
     }, [chat]);
 
@@ -104,12 +118,12 @@ const ChatView: FC = () => {
         }
     };
 
-    const inputMessage = (e: ChangeEvent<HTMLInputElement>) => {
+    const inputMessage = (e: ChangeEvent<HTMLInputElement>, type: string) => {
         setMessage({
             session: sessionId,
             user: "Me",
             message: e.target.value,
-            inputType: TEXT,
+            inputType: type,
             timestamp: Date.now(),
             args: null
         });
@@ -125,7 +139,10 @@ const ChatView: FC = () => {
                 aria-label="Open Chat"
                 onClick={() => {
                     setIsOpen(!isOpen);
-                    handleClick("hi");
+                    if(!sendGreet) {
+                        handleClick("hi");
+                    }
+                    setSendGreet(true);
                 }}
             />
 
@@ -169,8 +186,8 @@ const ChatView: FC = () => {
                                                     background: "linear-gradient(150deg, rgba(245,245,245,1) 26%, rgba(255,255,255,0.48363095238095233) 99%)",
                                                     borderRadius: 10,
                                                     fontFamily: "Poppins"
-                                                }}>{msg.message ?? ""} </div>
-                                                {msg.user !== "AI" &&
+                                                }}>{msg.user === "Me" && msg?.inputType === "password" ? "******" : msg?.message} </div>
+                                                {msg?.user !== "AI" &&
                                                     <Avatar label={msg.user.charAt(0)}
                                                             size="normal" style={{
                                                         backgroundColor: msg.user === "AI" ? '#2196F3' : '#ff00aa',
@@ -230,7 +247,7 @@ const ChatView: FC = () => {
                                                                 icon={role === "admin" ? <User size={14}/> :
                                                                     <Users size={14}/>}
                                                                 onClick={() => handleClick(role === "admin" ? "admin" : "user")}
-                                                                label={role === "admin" ? "I'm Admin" : "I'm User"}
+                                                                label={role === "admin" ? "I'm Admin" : "I'm App user"}
                                                                 style={{
                                                                     background: "#00B1B3",
                                                                     color: "#fff",
@@ -273,14 +290,16 @@ const ChatView: FC = () => {
                                 <InputText
                                     onKeyPress={handleKeyPress}
                                     value={message?.message ?? ""}
-                                    onChange={inputMessage}
+                                    onChange={(e) => inputMessage(e, incomingMessage[incomingMessage?.length - 1]?.inputType === "password" ? "password" : "text")}
                                     placeholder="Type a message..."
-                                    style={{width: 320}}
+                                    style={{width: 320, height:50, padding:5}}
                                     className="p-inputtext-lg"
+                                    type={incomingMessage[incomingMessage?.length - 1]?.inputType === "password" ? "password" : "text"}
                                 />
                                 <div style={{width: 50}}>
                                     <Button
-                                        style={{backgroundColor: "#00B1B3"}}
+
+                                        style={{backgroundColor: "#00B1B3", width:50, height:50, paddingRight:10}}
                                         icon={<Send size={16}/>}
                                         className="p-button-success send-btn"
                                         onClick={sendMessage}
