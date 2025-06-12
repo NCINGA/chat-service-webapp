@@ -1,37 +1,75 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+/* Local Poppins Font Declarations */
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Optional: Add more weights if you want to use them */
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Style the scrollbar for the entire page */
 ::-webkit-scrollbar {
-  width: 8px; /* Width of the scrollbar */
-  height: 8px; /* Height of the scrollbar */
+  width: 8px;
+  height: 8px;
 }
 
-/* Style the scrollbar track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Light grey background */
+  background: #f1f1f1;
 }
 
-/* Style the scrollbar thumb (the draggable part) */
 ::-webkit-scrollbar-thumb {
-  background: #00B1B3; /* The color you want */
-  border-radius: 10px; /* Rounded corners for a smooth look */
+  background: #00B1B3;
+  border-radius: 10px;
 }
 
-/* Hover effect for the scrollbar thumb */
 ::-webkit-scrollbar-thumb:hover {
-  background: #009C9C; /* Slightly darker shade for hover effect */
+  background: #009C9C;
 }
 
-
+/* Base chat window styles */
 .chat-window {
   position: fixed;
   bottom: 80px;
   right: 20px;
   width: 400px;
+  max-width: calc(100vw - 40px); /* Ensure it doesn't exceed screen width */
   max-height: 650px;
   height: 500px;
   display: flex;
@@ -62,7 +100,7 @@ body {
   flex-grow: 1;
   overflow-y: auto;
   padding: 10px;
-  background:#ffffff;
+  background: #ffffff;
   height: 300px;
 }
 
@@ -74,30 +112,40 @@ body {
   justify-content: space-between;
   flex-direction: row;
   gap: 8px;
-  padding-right:8px;
-  padding-left:8px;
-  padding-top:12px;
+  padding: 12px 8px;
   background: rgba(245,245,245,1);
-  width:100%;
-  height:80px;
+  width: 100%;
+  height: 80px;
+}
+
+/* Make input flexible */
+.chat-input .p-inputtext {
+  flex: 1; /* Take up remaining space */
+  min-width: 0; /* Allow shrinking below content size */
+  height: 50px;
+  padding: 5px;
+}
+
+.chat-input .send-btn-container {
+  flex-shrink: 0; /* Don't shrink the button */
+  width: 50px;
 }
 
 .chat-box-header {
   cursor: pointer;
-  z-index:10;
+  z-index: 10;
   background: #00B1B3;
   color: #ffffff;
   width: 100%;
   height: 60px;
   border-radius: 5px;
-  display:flex;
+  display: flex;
   justify-content: start;
   align-items: center;
-  padding-left:10px;
-  user-select:none;
+  padding-left: 10px;
+  user-select: none;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
-
 
 .floating-btn {
   position: fixed;
@@ -116,4 +164,111 @@ body {
 
 .floating-btn:hover {
   transform: scale(1.1);
+}
+
+/* Responsive styles for tablets */
+@media (max-width: 768px) {
+  .chat-window {
+    width: 350px;
+    max-width: calc(100vw - 20px);
+    right: 10px;
+    bottom: 70px;
+    height: 450px;
+  }
+
+  .chat-body {
+    height: 370px;
+  }
+
+  .messages {
+    height: 250px;
+    padding: 8px;
+  }
+
+  .chat-box-header h4 {
+    font-size: 16px;
+  }
+
+  .floating-btn {
+    right: 15px;
+    bottom: 15px;
+    width: 45px;
+    height: 45px;
+  }
+}
+
+/* Responsive styles for mobile phones */
+@media (max-width: 480px) {
+  .chat-window {
+    width: calc(100vw - 20px);
+    max-width: calc(100vw - 20px);
+    height: 400px;
+    max-height: 70vh;
+    bottom: 80px;
+    right: 10px;
+    border-radius: 8px;
+  }
+
+  .chat-body {
+    height: 320px;
+  }
+
+  .messages {
+    height: 240px;
+    padding: 8px;
+  }
+
+  .chat-input {
+    padding: 8px;
+    height: 70px;
+    gap: 5px;
+  }
+
+  .chat-box-header {
+    height: 50px;
+    border-radius: 8px 8px 0 0;
+    padding-left: 8px;
+  }
+
+  .chat-box-header h4 {
+    font-size: 14px;
+  }
+
+  .floating-btn {
+    right: 15px;
+    bottom: 15px;
+    width: 50px;
+    height: 50px;
+  }
+
+  /* Always show floating button on mobile */
+  .floating-btn.chat-open {
+    display: flex !important;
+  }
+
+  /* Make message bubbles more mobile-friendly */
+  .messages > div > div:nth-child(1) {
+    flex-wrap: wrap;
+  }
+
+  .messages > div > div:nth-child(1) > div:nth-child(2) {
+    max-width: calc(100% - 80px); /* Account for avatars */
+    word-wrap: break-word;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 320px) {
+  .chat-input {
+    gap: 5px;
+    padding: 8px;
+  }
+
+  .chat-box-header {
+    padding-left: 8px;
+  }
+
+  .chat-box-header h4 {
+    font-size: 12px;
+  }
 }
