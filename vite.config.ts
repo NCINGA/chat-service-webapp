@@ -23,7 +23,7 @@ export default defineConfig({
       }
     },
     emptyOutDir: false,
-    outDir: '/var/www/html/dist',
+    outDir: '/usr/local/var/www/dist',
   },
   server: {
     proxy: {
