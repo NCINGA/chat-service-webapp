@@ -14,7 +14,7 @@ import "primeicons/primeicons.css";
 
 const sessionId = uuidv4();
 const ChatView: FC = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
     const [message, setMessage] = useState<IMessage | null>(null);
     const [messages, setMessages] = useState<IMessage[]>([]);
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -131,20 +131,34 @@ const ChatView: FC = () => {
 
     return (
         <React.Fragment>
-            <Button
-                style={{background: "#00B1B3", border: "#fff"}}
-                className="floating-btn"
-                icon={<MessageCircle/>}
-                rounded
-                aria-label="Open Chat"
-                onClick={() => {
-                    setIsOpen(!isOpen);
-                    if(!sendGreet) {
-                        handleClick("hi");
-                    }
-                    setSendGreet(true);
-                }}
-            />
+            <div className="animated-chat-container">
+                {/* Ripple Effects */}
+                <div className="ripple-effect"></div>
+                <div className="ripple-effect-2"></div>
+
+                {/* Chat Tooltip */}
+                <div className="chat-tooltip">
+                    💬 Chat with us!
+                </div>
+
+                {/* Main Button */}
+                <Button
+                    className="floating-btn"
+                    icon={<MessageCircle className="message-icon"/>}
+                    rounded
+                    aria-label="Open Chat"
+                    onClick={() => {
+                        setIsOpen(!isOpen);
+                        if (!sendGreet) {
+                            handleClick("hi");
+                        }
+                        setSendGreet(true);
+                    }}
+                />
+
+                {/* Notification Dot */}
+                <div className="notification-dot"></div>
+            </div>
 
             {isOpen && (
                 <motion.div
@@ -159,7 +173,7 @@ const ChatView: FC = () => {
                             <h4>NCINGA HelpDesk</h4>
                         </div>
                         <div className="chat-body">
-                            <div className="messages">
+                        <div className="messages">
                                 {[...messages]
                                     .sort((a, b) => a.timestamp - b.timestamp)
                                     .map((msg, index) => (
